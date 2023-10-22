@@ -1,12 +1,32 @@
+import { Nav, Navbar, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 function Header() {
+  const navigate = useNavigate();
+
   return (
-    <nav class="navbar bg-dark border-bottom border-body">
-      <div class="container-md">
-        <a class="navbar-brand" href="#">
-          Navbar
-        </a>
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+      id="header-container"
+    >
+      <div className="container-md">
+        <Navbar.Brand onClick={() => navigate("/")}>
+          Home
+        </Navbar.Brand>
+        <Nav className="justify-content-end flex-grow-1 me-auto">
+          <Button
+            variant="link"
+            className={"nav-link"}
+            onClick={() => navigate("/new-ticket")}
+          >
+            New Ticket
+          </Button>
+        </Nav>
       </div>
-    </nav>
+    </Navbar>
   );
 }
 

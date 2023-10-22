@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
 import Header from './Components/Header';
 import './App.css';
+import GetTicketPage from './Pages/GetTicketPage';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <BrowserRouter>
       <Header />
         <Routes>
-          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/" element={<p>Home</p>} />
+          <Route path="/new-ticket" element={<GetTicketPage />} />
         </Routes>
       </BrowserRouter>
     </div>
