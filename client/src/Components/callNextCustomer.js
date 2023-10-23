@@ -1,6 +1,6 @@
-import {Card, Container, Button, Row, Col} from 'react-bootstrap';
+import {Card, Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import '../App.css';
 
 
 
@@ -26,9 +26,6 @@ function CallNextCustomer(props){
 }
 
 function RowOfNumberAndCounter(props){
-
-    
-
     return(
         <>
         <Row>
@@ -36,12 +33,8 @@ function RowOfNumberAndCounter(props){
             <Col> {props.number} </Col>
             <hr></hr>
         </Row>
-
         {/* <Button onClick={()=> props.updateCustomers(props.counter-1)}>update </Button> */}
-
         </>
-        
     );
 }
-
 export default CallNextCustomer;

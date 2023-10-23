@@ -1,10 +1,12 @@
-import {Button, Col, Container , Row, Form, FormGroup} from 'react-bootstrap';
+import {Button, Container , Form, FormGroup} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import '../App.css';
 
 function LoginForm() {
     return (
     <Container className='container_center myBG'>
+
+      
       <Form className='border'>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
