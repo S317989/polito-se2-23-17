@@ -5,7 +5,6 @@ const ticket = require("../Models/Ticket");
 
 module.exports = {
     newTicketRequest: function (req, res) {
-        console.log("Controller");
         ticket.newTicket().then((ticket) => {
             return res.status(200).json(pages);
         }).catch((err) => {
