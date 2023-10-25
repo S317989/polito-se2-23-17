@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
 import Header from './Components/Header';
 import './App.css';
+import StatsPage from './Pages/StatsPage';
 
 function App() {
   return (
@@ -20,3 +21,5 @@ function App() {
 }
 
 export default App;
+
+
