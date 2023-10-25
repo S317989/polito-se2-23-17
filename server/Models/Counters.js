@@ -19,8 +19,8 @@ exports.getListServices = () => {
           reject(err);
           return;
         }
-        const services = rows.map((e) => ({ id: e.id, name: e.name, ast: e.AverageServiceTime }));
-        resolve(itemSet);
+        const services = rows.map((e) => ({ id: e.Id, name: e.Name, ast: e.AverageServiceTime }));
+        resolve(services);
       });
     });
   };
@@ -70,4 +70,49 @@ exports.updateService = (id, ast) => {
       });
     });
   } ; 
+
+  // ### manage services for a given counter ###
+  // get all services
+exports.getServiceByCounter = (counterId) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM ServicesByCounters JOIN Services ON Services.Id=ServicesByCounters.ServiceId WHERE CounterId=?';
+    db.all(sql, [counterId], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const services = rows.map((e) => ({ id: e.Id, name: e.Name, ast: e.AverageServiceTime }));
+      resolve(services);
+    });
+  });
+};
+
+//add service for a given counter
+exports.addServiceByCounter = (serviceId, counterId) => {
+  
+  return new Promise((resolve, reject) => {
+    const sql = 'INSERT INTO ServicesByCounters(ServiceId, CounterId) VALUES(?, ?)';  
+    // 
+    db.run(sql, [serviceId, counterId], function (err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(this.lastID); //returns last id element
+    });
+  });
+};
       
+   //delete a Service for a given counter
+   exports.deleteServiceByCounter = (counterId, serviceId) => {
+    return new Promise((resolve, reject) => {
+      const sql = 'DELETE FROM ServicesByCounters WHERE CounterId = ? AND ServiceId = ?';  
+      db.run(sql, [counterId, serviceId], function (err) {
+        if (err) {
+          reject(err);
+          return;
+        } else
+          resolve(this.changes);  // return the number of affected rows
+      });
+    });
+  } ; 

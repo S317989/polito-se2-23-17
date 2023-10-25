@@ -63,6 +63,53 @@ const ServiceAPI = {
       },
     });
   },
+  
+  //APIs services for a given counters , i use params here
+  getServiceListByCounter: function () {
+    const url = new URL(parentURL + "/services/:counterId");
+
+    console.log("Request received")
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+  },
+
+  addNewServiceCounter: function () {
+    const url = new URL(parentURL + "/services/:counterId/:serviceId");
+//i use params here
+    console.log("Request received")
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+     
+    });
+  },
+
+  deleteService: function () {
+    const url = new URL(parentURL + "/services/:counterId/:serviceId");
+
+    console.log("Request received")
+    return fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+     
+    });
+  },
+
 };
+
+
+
+
 
 export default ServiceAPI;

@@ -11,5 +11,11 @@ counterRouter.put('/services/updateservice', counterController.updateServiceRequ
 
 counterRouter.delete('/services/deleteservice', counterController.deleteServiceRequest); 
 
+counterRouter.get('/services/:counterId', counterController.serviceListByCounterRequest); //devo tenere l'url con services anche qui? come in ticket?
+
+counterRouter.post('/services/:counterId/:serviceId', counterController.newServiceByCounterRequest); 
+
+counterRouter.delete('/services/:counterId/:serviceId', counterController.deleteServiceByCounterRequest); 
+
 module.exports = counterRouter;
 

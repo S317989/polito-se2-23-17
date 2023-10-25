@@ -8,4 +8,7 @@ apiRouter.use('/services/newservice', require('./CounterRouter'));
 apiRouter.use('/services/updateservice', require('./CounterRouter'));
 apiRouter.use('/services/deleteservice', require('./CounterRouter'));
 
+apiRouter.use('/services/:counterId', require('./CounterRouter'));
+apiRouter.use('/services/:counterId/:serviceId', require('./CounterRouter'));
+
 module.exports = apiRouter;

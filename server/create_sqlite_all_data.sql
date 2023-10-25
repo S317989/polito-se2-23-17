@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "Services" (
 	"AverageServiceTime"  INTEGER
 );
 CREATE TABLE IF NOT EXISTS "ServicesByCounters" (
-	"SeerviceId"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"ServiceId"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"CounterId"	INTEGER 
 );
 
