@@ -1,20 +1,32 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Header from './Components/Header';
-import './App.css';
+import Header from "./Components/Header";
+import Login from "./Pages/Login.jsx";
+import {useState} from "react";
+import {UserContext} from "./Contexts.js";
+
+
+import "./App.css";
+import GetTicketPage from "./Pages/GetTicketPage";
 import StatsPage from './Pages/StatsPage';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <div className="App">
       <BrowserRouter>
-      <Header />
-        <Routes>
-          <Route path="/" element={<h1>Home</h1>} />
-          <Route path="/stats" element={<StatsPage />} />
+        <UserContext.Provider value={{ user, setUser }}>
+          <Header />
+          <Routes>
+            <Route path="/" element={<p>Home</p>} />
+            <Route path="/new-ticket" element={<GetTicketPage />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="/stats" element={<StatsPage />} />
         </Routes>
+        </UserContext.Provider>
       </BrowserRouter>
     </div>
   );
