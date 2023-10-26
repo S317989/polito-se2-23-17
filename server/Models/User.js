@@ -14,10 +14,10 @@ const db = new sqlite.Database("./QueueManagement.sqlite", (err) => {
 });
 
 module.exports = {
-  authentication: function (username, password) {
+  authentication: function (email, password) {
     return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM User WHERE username = ?";
-      db.get(sql, [username], (err, row) => {
+      const sql = "SELECT * FROM Users WHERE Email = ?";
+      db.get(sql, [email], (err, row) => {
         if (err)
           reject({
             status: 500,
@@ -28,22 +28,48 @@ module.exports = {
           reject({ status: 404, message: "User not found" });
         else {
           const user = {
-            id: row.id,
-            name: row.name,
-            email: row.email,
-            role: row.role,
-            salt: row.salt,
+            id: row.Id,
+            name: row.Name,
+            email: row.Email,
+            role: row.Role,
+            salt: row.Salt,
           };
 
-          bcrypt.hash(password, user.salt, (err, hashedPassword) => {
-            if (err)
-              return reject({ status: 500, message: "Internal Server Error" });
-
-            if (hashedPassword === row.password) resolve(user);
-            else reject({ status: 401, message: "Unauthorized" });
+          bcrypt.hash(password, 10).then((hash) => {
+            bcrypt
+              .compare(password, hash)
+              .then((res) => {
+                resolve(user);
+              })
+              .catch((err) => console.error(err.message));
           });
         }
       });
+    });
+  },
+  getUserById: function (id) {
+    return new Promise((resolve, reject) => {
+      const sql = "SELECT * FROM Users WHERE id = ?";
+      try {
+        db.get(sql, [id], (err, row) => {
+          if (err)
+            return reject({
+              status: 500,
+              message: "Internal Server Error",
+            });
+
+            if (row === undefined)
+            return reject({ status: 404, message: "User not found" });
+          else
+            return resolve({
+              id: row.Id,
+              email: row.Email,
+              role: row.role,
+            });
+        });
+      } catch (e) {
+        return reject({ status: 500, message: "Author not found" });
+      }
     });
   },
 };
