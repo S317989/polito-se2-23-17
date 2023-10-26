@@ -65,10 +65,25 @@ module.exports = {
               GROUP BY T.ServiceId, S.AverageServiceTime, SBC.CounterId
               ORDER BY count(T.ServiceId) DESC, S.AverageServiceTime
               LIMIT 1`,
-        [req.body.counterId, date],
+        [req.body.CounterId, date],
         (err, rows) => {
           if (err) return res.status(400).json(err);
-          return res.status(200).json(rows.map(r => Object.assign({}, { Number: r.Number, ServiceId: r.ServiceId })));
+          console.log(rows);
+          db.run(`UPDATE Tickets
+                  SET BeingServed = 0
+                  WHERE ServiceId = ? AND BeingServed = 1`,
+            [rows[0].ServiceId],
+            (error) => {
+              if (error) return res.status(400).json({ error, where: 'failed updating' });
+              db.run(`UPDATE Tickets
+                      SET BeingServed = 1, OfficerId = ?, CounterId = ?
+                      WHERE Number = ? AND DateTime >= ?`,
+                [req.body.OfficerId, req.body.CounterId, rows[0].Number, date],
+                (error) => {
+                  if (error) return res.status(400).json({ error, where: 'failed updating 2' });
+                  return res.status(200).json({ Number: rows[0].Number, ServiceId: rows[0].ServiceId });
+                });
+            });
         });
     } catch (error) {
       return res.status(400).json(error);
