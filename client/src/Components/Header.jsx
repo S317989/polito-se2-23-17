@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import { Nav, Navbar, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Contexts.js";
 import AuthenticationAPI from "../APIs/AuhtAPI.jsx";
 import {useContext, useEffect, useState} from "react";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> ConfigureCounters-backend
 
 function Header() {
   const navigate = useNavigate();
@@ -22,6 +26,7 @@ function Header() {
   };
 
   return (
+<<<<<<< HEAD
     <Navbar
       collapseOnSelect
       expand="lg"
@@ -57,6 +62,15 @@ function Header() {
             </Button>
           )}
         </Nav>
+=======
+    <nav className="navbar bg-dark border-bottom border-body">
+      <div className="container-md">
+        <a className="navbar-brand" href="#">
+          Navbar
+        </a>
+        <Link to="/services" style={{color: 'white'}}> Services</Link>
+
+>>>>>>> ConfigureCounters-backend
       </div>
     </Navbar>
   );

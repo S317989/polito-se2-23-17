@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
+<<<<<<< HEAD
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Header from "./Components/Header";
@@ -10,8 +11,16 @@ import AuthenticationAPI from "./APIs/AuhtAPI.jsx";
 
 import "./App.css";
 import GetTicketPage from "./Pages/GetTicketPage";
+=======
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import Services from './Pages/Services';
+import Header from './Components/Header';
+import './App.css';
+>>>>>>> ConfigureCounters-backend
+
 
 function App() {
+<<<<<<< HEAD
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -56,6 +65,21 @@ function App() {
         </div>
       )}
     </>
+=======
+
+
+  
+  return (
+    <div className="App">
+      <BrowserRouter>
+      <Header />
+        <Routes>
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/services" element={<Services/>}/>
+        </Routes>
+      </BrowserRouter>
+    </div>
+>>>>>>> ConfigureCounters-backend
   );
 }
 
