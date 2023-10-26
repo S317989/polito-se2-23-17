@@ -40,7 +40,22 @@ function Header() {
           >
             New Ticket
           </Button>
-          {user ? (
+          <Button
+            variant="link"
+            className={"nav-link"}
+            onClick={() => navigate("/services")}
+          >
+            Services
+          </Button>
+          <Button
+            variant="link"
+            className={"nav-link"}
+            onClick={() => navigate("/stats")}
+          >
+            Stats
+          </Button>
+          
+                    {user ? (
             <Button
               variant="link"
               className={"nav-link"}
@@ -57,7 +72,6 @@ function Header() {
               Login
             </Button>
           )}
-        <Link to="/services" style={{color: 'white'}}> Services</Link>
         </Nav>
         
     </Navbar>

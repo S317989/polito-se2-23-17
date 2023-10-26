@@ -10,7 +10,7 @@ import AuthenticationAPI from "./APIs/AuhtAPI.jsx";
 
 import "./App.css";
 import GetTicketPage from "./Pages/GetTicketPage";
-
+import Services from "./Pages/Services";
 import StatsPage from './Pages/StatsPage';
 
 function App() {
@@ -52,6 +52,7 @@ function App() {
                 <Route path="/new-ticket" element={<GetTicketPage />} />
                 <Route path="Login" element={<Login />} />
                 <Route path="/stats" element={<StatsPage />} />
+                <Route path="/services" element={<Services />} />
         </Routes>
             </UserContext.Provider>
           </BrowserRouter>
