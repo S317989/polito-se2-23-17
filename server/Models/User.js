@@ -64,7 +64,7 @@ module.exports = {
             return resolve({
               id: row.Id,
               email: row.Email,
-              role: row.role,
+              role: row.Role,
             });
         });
       } catch (e) {

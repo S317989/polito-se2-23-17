@@ -4,19 +4,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../Contexts.js";
 import TicketAPI from "../APIs/TicketAPI.jsx";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, InputGroup } from "react-bootstrap";
 
 function GetTicketPage() {
   const { user } = useContext(UserContext); // Stores user information
   const [services, setServices] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
+  const [currentTicket, setCurrentTicket] = useState(null);
 
   const handleNewTicketRequest = () => {
     TicketAPI.newTicket(selectedService).then(async (response) => {
       const data = await response.json();
 
       if (response.status === 200) {
-        console.log("Done");
+        setCurrentTicket(data.ticket);
       } else {
         console.log("Error");
       }
@@ -72,6 +73,15 @@ function GetTicketPage() {
           >
             Try me!
           </Button>
+
+          <InputGroup className="mb-3">
+            <InputGroup.Text id="basic-addon1">
+              Your ticket number is:
+            </InputGroup.Text>
+            <InputGroup.Text id="basic-addon1">
+              {currentTicket ? currentTicket : "None"}
+            </InputGroup.Text>
+          </InputGroup>
         </>
       ) : (
         <Navigate to="/login" />

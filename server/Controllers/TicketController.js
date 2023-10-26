@@ -4,8 +4,7 @@ const ticket = require("../Models/Ticket");
 
 module.exports = {
   newTicketRequest: function (req, res) {
-    let userPrivileges;
-
+    let userPrivileges;    
     if (!req.isAuthenticated()) userPrivileges = undefined;
     else
       userPrivileges = {
@@ -14,17 +13,16 @@ module.exports = {
         id: req.user.id,
       };
 
-    console.log(userPrivileges);
-
     ticket
-      .newTicket(req.query.service, req.user.Id)
+      .newTicket(req.query.service, req.user.id)
       .then((ticket) => {
-        return res.status(200).json(pages);
+        return res.status(200).json(ticket);
       })
       .catch((err) => {
         return res.status(err.status).json({ message: err.message }).end();
       });
   },
+  
   getServicesRequest: function (req, res) {
     ticket
       .getServices()

@@ -15,7 +15,7 @@ module.exports = {
         })(req, res);
     },
 
-    session: (req, res) => {        
+    session: (req, res) => {   
         req.isAuthenticated() ? res.status(200).json({
             id: req.user.id, name: req.user.name, email: req.user.email, role: req.user.role
         }) : res.status(401).json({errorMessage: 'Unauthorized'});

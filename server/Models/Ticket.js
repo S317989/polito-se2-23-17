@@ -22,42 +22,108 @@ module.exports = {
       });
     });
   },
-  getServiceIdByName(serviceName) {
+
+  getServiceInfosByName(serviceName) {
     return new Promise(async (resolve, reject) => {
-      let SQL = `SELECT Id FROM Services WHERE Name = "${serviceName}";`;
+      let SQL = `SELECT * FROM Services WHERE Name = "${serviceName}";`;
 
       db.all(SQL, (err, id) => {
         if (err) return reject(err);
-        else return resolve(id[0].Id);
+        else return resolve(id[0]);
+      });
+    });
+  },
+
+  retrieveUserInQueue(serviceId) {
+    return new Promise(async (resolve, reject) => {
+      let SQL = `SELECT COUNT(*) AS Num FROM Tickets WHERE ServiceId = ${serviceId} AND BeingServed = 0;`;
+
+      db.all(SQL, (err, id) => {
+        if (err) return reject(err);
+        else return resolve(id[0]);
+      });
+    });
+  },
+
+  retrieveCounterNum() {
+    return new Promise(async (resolve, reject) => {
+      let SQL = `SELECT COUNT(*) AS Num FROM Counters;`;
+
+      db.all(SQL, (err, id) => {
+        if (err) return reject(err);
+        else return resolve(id[0]);
+      });
+    });
+  },
+
+  retrieveCounterInfo(counterId) {
+    return new Promise(async (resolve, reject) => {
+      let SQL = `SELECT COUNT(*) as reqServed FROM ServicesByCounters WHERE CounterId = ${counterId};`;
+
+      db.all(SQL, (err, id) => {
+        if (err) return reject(err);
+        else return resolve(id[0]);
+      });
+    });
+  },
+
+  checkCounterService(counterId, serviceId) {
+    return new Promise(async (resolve, reject) => {
+      let SQL = `SELECT * FROM ServicesByCounters WHERE CounterId = ${counterId} AND ServiceId = ${serviceId};`;
+
+    
+      db.all(SQL, (err, id) => {
+        if (err) return reject(err);
+        else return resolve(id.length === 0 ? 0 : 1);
+      });
+    });
+  },
+
+  async calculateEWT(ServiceInfo) {
+    let tr = ServiceInfo.AverageServiceTime; 
+    let nr = await this.retrieveUserInQueue(ServiceInfo.Id);
+
+    let counterNum = await this.retrieveCounterNum();
+    let k = 0.0;
+
+    for(let i = 0; i < counterNum.Num; i++) {
+      let counterInfo = await this.retrieveCounterInfo(i);
+      let counterService = await this.checkCounterService(i, ServiceInfo.Id);
+
+      if(counterInfo.reqServed === 0 && counterService === 0) k += 0.0;
+      else k += ((1 / counterInfo.reqServed) * counterService);
+    }
+
+    return tr * ((nr.Num / k) + 0.5);
+  },
+
+  checkLastTicket() {
+    return new Promise(async (resolve, reject) => {
+      let SQL = `SELECT COUNT(*) as Num FROM Tickets;`;
+
+      db.all(SQL, (err, id) => {
+        if (err) return reject(err);
+        else return resolve(id[0]);
       });
     });
   },
 
   newTicket(selectedService, userId) {
     return new Promise(async (resolve, reject) => {
-      let SQL = `INSERT INTO Tickets(DateTime, ServiceId, UserId, EstimatedWaitingTime, BeingServed, OfficerId, CounterId) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      let SQL = `INSERT INTO Tickets(Number, DateTime, ServiceId, UserId, EstimatedWaitingTime) 
+                        VALUES (?, ?, ?, ?, ?)`;
 
       let dateTime = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-      let ServiceId = await this.getServiceIdByName(selectedService);
+      let ServiceInfo = await this.getServiceInfosByName(selectedService);
 
-      let EWT = 1.5;
+      let EWT = await this.calculateEWT(ServiceInfo);
 
-      let BeingServed = 0;
+      let ticketNum = await this.checkLastTicket();
 
-      console.log(userId);
-      
-      //let id = userId;
-
-
-      let sqlCheck = "SELECT * FROM Users";
-
-      db.all(sqlCheck, (err, rows) => {
+      db.run(SQL, [ticketNum.Num + 1, dateTime, ServiceInfo.Id, userId, EWT], function (err) {
         if (err) return reject(err);
-        else {
-          console.log(rows);
-        }
+        else return resolve({status: 200, ticket: this.lastID, message: 'Ticket created successfully'});
       });
     });
   },
