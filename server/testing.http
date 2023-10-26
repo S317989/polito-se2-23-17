@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/ticket/new-ticket
+###
+GET http://localhost:3000/api/ticket/callNext
+content-type: application/json
+
+{
+  "counterId": 1
+}

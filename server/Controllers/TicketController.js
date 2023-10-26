@@ -11,4 +11,8 @@ module.exports = {
             return res.status(err.status).json({message: err.message}).end()
         });
     },
+
+    callNext: function (req, res){
+        ticket.callNext(req, res);
+    }
 };
