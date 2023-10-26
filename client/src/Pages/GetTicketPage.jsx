@@ -1,7 +1,13 @@
 import Button from "react-bootstrap/Button";
+import { Navigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../Contexts.js";
 import TicketAPI from "../APIs/TicketAPI.jsx";
 
 function GetTicketPage() {
+  const { user } = useContext(UserContext); // Stores user information
+
   const handleNewTicketRequest = () => {
     TicketAPI.newTicket().then(async (response) => {
       const data = await response.json();
@@ -16,17 +22,23 @@ function GetTicketPage() {
 
   return (
     <>
-      <h1>Get the ticket Page</h1>
-      <Button
-        type="submit"
-        size="lg"
-        variant="outline-primary"
-        className="float-end"
-        id="login-button"
-        onClick={handleNewTicketRequest}
-      >
-        Try me!
-      </Button>
+      {user ? (
+        <>
+          <h1>Get the ticket Page</h1>
+          <Button
+            type="submit"
+            size="lg"
+            variant="outline-primary"
+            className="float-end"
+            id="login-button"
+            onClick={handleNewTicketRequest}
+          >
+            Try me!
+          </Button>
+        </>
+      ) : (
+        <Navigate to="/login" />
+      )}
     </>
   );
 }

@@ -6,8 +6,8 @@ import AuthenticationAPI from "../APIs/AuhtAPI.jsx";
 
 function LoginForm() {
   const { user, setUser } = useContext(UserContext);
-  const [username, setUsername] = useState("mahmoud@test.com");
-  const [password, setPassword] = useState("Password");
+  const [username, setUsername] = useState("andrea@test.com");
+  const [password, setPassword] = useState("andrea");
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
@@ -30,7 +30,9 @@ function LoginForm() {
       });
   };
 
-  return (
+  return user ? (
+    <Navigate to="/new-ticket" />
+  ) : (
     <Form>
       <Form.Group className="mb-3" controlId="formGroupEmail">
         <Form.Label column="lg">Email</Form.Label>
