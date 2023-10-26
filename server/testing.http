@@ -4,6 +4,6 @@ POST http://localhost:3000/api/ticket/callNext
 content-type: application/json
 
 {
-  "CounterId": 1,
-  "OfficerId": 3
+  "CounterId": 4,
+  "OfficerId": 2
 }

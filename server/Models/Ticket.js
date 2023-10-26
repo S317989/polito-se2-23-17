@@ -93,8 +93,8 @@ module.exports = {
           console.log(rows);
           db.run(`UPDATE Tickets
                   SET BeingServed = 0
-                  WHERE ServiceId = ? AND BeingServed = 1`,
-            [rows[0].ServiceId],
+                  WHERE OfficerId = ? AND BeingServed = 1`,
+            [req.body.OfficerId],
             (error) => {
               if (error) return res.status(400).json({ error, where: 'failed updating' });
               db.run(`UPDATE Tickets
