@@ -92,7 +92,7 @@ const ServiceAPI = {
     });
   },
 
-  deleteServiceFromCounter: function (counterId, serviceId) {
+  deleteService: function (counterId, serviceId) {
     const url = new URL(parentURL + `/services/${counterId}/${serviceId}`);
 
     console.log("Request received")

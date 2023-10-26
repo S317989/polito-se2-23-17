@@ -65,8 +65,13 @@ const ServiceAPI = {
   },
   
   //APIs services for a given counters , i use params here
+<<<<<<< HEAD
+  getServiceListByCounter: function () {
+    const url = new URL(parentURL + "/services/:counterId");
+=======
   getServiceListByCounter: function (counterId) {
     const url = new URL(parentURL + `/services/${counterId}`);
+>>>>>>> ConfigureCounters-frontend
 
     console.log("Request received")
     return fetch(url, {
@@ -78,8 +83,13 @@ const ServiceAPI = {
     });
   },
 
+<<<<<<< HEAD
+  addNewServiceCounter: function () {
+    const url = new URL(parentURL + "/services/:counterId/:serviceId");
+=======
   addNewServiceCounter: function (counterId, serviceId) {
     const url = new URL(parentURL + `/services/${counterId}/${serviceId}`);
+>>>>>>> ConfigureCounters-frontend
 //i use params here
     console.log("Request received")
     return fetch(url, {
@@ -92,8 +102,13 @@ const ServiceAPI = {
     });
   },
 
-  deleteServiceFromCounter: function (counterId, serviceId) {
+<<<<<<< HEAD
+  deleteService: function () {
+    const url = new URL(parentURL + "/services/:counterId/:serviceId");
+=======
+  deleteService: function (counterId, serviceId) {
     const url = new URL(parentURL + `/services/${counterId}/${serviceId}`);
+>>>>>>> ConfigureCounters-frontend
 
     console.log("Request received")
     return fetch(url, {
