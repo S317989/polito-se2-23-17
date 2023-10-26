@@ -1,4 +1,4 @@
-import {Container, Col, Row} from 'react-bootstrap';
+import {Container, Col, Row, Button} from 'react-bootstrap';
 import Pagination from 'react-bootstrap/Pagination';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ServiceAPI from '../APIs/ServiceAPI';
@@ -8,32 +8,26 @@ function Services() {
 
    const counter=[1,2,3,4]; //counter is a fixed number
    const [active, setActive]=useState(1);
+   const [show, setShow]=useState(true);
    const [clist, setClist]=useState();
    
    const [slist, setSlist]=useState();
 
 
-    const handlelistService = () => {
-      ServiceAPI.getServiceList().then(async (response) => {
-        const data = await response.json();
-  
-        if (response.status === 200) {
-            const sList = data.map((i) => ({ id: i.id, name: i.name, ast: i.ast }));
 
-          setSlist(sList);
-        } else {
-            
-          console.log("Error");
-        }
-      });
+
+    const handlelistService = async () => {
+        let data= await ServiceAPI.getServiceList()
+        .then((res)=>{
+            console.log(res)
+            return res;
+        })
+        .catch((err)=>console.log(err));
+       return data;
     };
-
-      useEffect(
-    ()=>{
-        handlelistService();
-    }
-    ,[] )
     
+
+
     const handleCounterServices = (cId)=>{
 
         ServiceAPI.getServiceListByCounter(cId).then(async (response)=>{
@@ -53,7 +47,16 @@ function Services() {
         <>
         <Container>
             <Row>
-            <Col>
+                
+                    
+                    <Button onClick={()=>{
+                         let res=  handlelistService();
+                       console.log(res)
+                        
+                    }} > Show all services</Button>
+                    
+
+             <Col>
                  <ListGroup as="ul">
                 {
                     slist ?
@@ -68,6 +71,7 @@ function Services() {
             </Col>
             <Col>
             <Row>
+                <Pagination>
             {
                 counter.map((e)=><Pagination.Item key={e} active={e === active} onClick={()=>{
                     setActive(e);
@@ -78,6 +82,7 @@ function Services() {
                 </Pagination.Item>)
                 
             }
+            </Pagination>
             </Row>
             <Row>
             <ListGroup as="ul">
@@ -91,7 +96,7 @@ function Services() {
             </ListGroup>
             </Row>
             </Col>
-                
+            
            
             </Row>
         </Container>
