@@ -1,4 +1,3 @@
-
 const parentURL = 'http://localhost:3000/api';
 
 const StatsAPI = {
@@ -29,4 +28,5 @@ const StatsAPI = {
   },
 };
 
+  
 export default StatsAPI;

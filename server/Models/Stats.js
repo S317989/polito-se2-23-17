@@ -1,60 +1,97 @@
 "use strict";
 
 /**
- * DAO for Ticket table
+ * DAO for Stats table
  * */
 
 const sqlite = require("sqlite3");
+const dayjs = require('dayjs'); 
 
 // Open the database connection
 const db = new sqlite.Database("./QueueManagement.sqlite", (err) => {
   if (err) console.error(err.message);
-  console.log("Ticket DAO ready.");
+  console.log("Stats DAO ready.");
 });
-
-
-// const sqlite3 = require('sqlite3').verbose();
-
-// const db = new sqlite3.Database('./QueueManagement.sqlite');
-
-
-// module.exports = {
-//     newTicket(){
-//         console.log("DAO");
-//         return new Promise((resolve, reject) => {
-//             console.log("Inside"); 
-//         });
-//     },
-// };
 
 module.exports = {
     getServiceTypeStats: function(timePeriod) {
         return new Promise((resolve, reject) => {
-            const startDate = new Date();
-            if (timePeriod === 'day') {
-                startDate.setDate(startDate.getDate() - 1);
-            } else if (timePeriod === 'week') {
-                startDate.setDate(startDate.getDate() - 7);
-            } else if (timePeriod === 'month') {
-                startDate.setMonth(startDate.getMonth() - 1);
-            }
+            let startDate, endDate;
 
-            const endDate = new Date();
+            if (timePeriod === 'day') {
+                startDate = dayjs().subtract(1, 'day').startOf('day').toDate();
+                endDate = dayjs().endOf('day').toDate();
+            } else if (timePeriod === 'week') {
+                startDate = dayjs().subtract(1, 'week').startOf('week').toDate();
+                endDate = dayjs().endOf('week').toDate();
+            } else if (timePeriod === 'month') {
+                startDate = dayjs().subtract(1, 'month').startOf('month').toDate();
+                endDate = dayjs().endOf('month').toDate();
+            } else {
+                reject(new Error('Invalid time period'));
+                return; // Make sure to return here to avoid executing the rest of the code
+            }
 
             const sql = `
                 SELECT 
                     Services.Name AS serviceName,
-                    COUNT(Tickets.Number) AS totalServed,
-                    COUNT(DISTINCT Tickets.ServiceId) AS uniqueServices
+                    COUNT(Tickets.Number) AS totalServed
                 FROM 
                     Tickets
                 INNER JOIN 
                     Services ON Tickets.ServiceId = Services.Id
                 WHERE 
                     Tickets.DateTime BETWEEN ? AND ?
-                    AND Tickets.BeingServed = 1  
+                    AND Tickets.BeingServed = 0  
                 GROUP BY 
                     Services.Name
+            `;
+
+            db.all(sql, [startDate, endDate], (err, rows) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(rows);
+                    console.log(rows);
+                }
+            });
+        });
+    },
+
+    getCounterServiceStats: function(timePeriod) {
+        return new Promise((resolve, reject) => {
+            let startDate, endDate;
+
+            if (timePeriod === 'day') {
+                startDate = dayjs().subtract(1, 'day').startOf('day').toDate();
+                endDate = dayjs().endOf('day').toDate();
+            } else if (timePeriod === 'week') {
+                startDate = dayjs().subtract(1, 'week').startOf('week').toDate();
+                endDate = dayjs().endOf('week').toDate();
+            } else if (timePeriod === 'month') {
+                startDate = dayjs().subtract(1, 'month').startOf('month').toDate();
+                endDate = dayjs().subtract(1, 'month').endOf('month').toDate();                
+            } else {
+                reject(new Error('Invalid time period'));
+                return;
+            }
+
+            const sql = `
+                SELECT
+                    Counters.Name AS counterName,
+                    Services.Name AS serviceName,
+                    COUNT(Tickets.Number) AS totalServed
+                FROM
+                    Tickets
+                INNER JOIN
+                    Counters ON Tickets.CounterId = Counters.Id
+                INNER JOIN
+                    Services ON Tickets.ServiceId = Services.Id
+                WHERE
+                    Tickets.DateTime BETWEEN ? AND ?
+                    AND Tickets.BeingServed = 0 
+                GROUP BY
+                    Counters.Name, Services.Name
             `;
 
             db.all(sql, [startDate, endDate], (err, rows) => {
@@ -67,51 +104,5 @@ module.exports = {
         });
     }
 };
-
-
-module.exports = {
-    getCounterServiceStats: function() {
-        return new Promise((resolve, reject) => {
-
-            const startDate = new Date();
-            if (timePeriod === 'day') {
-                startDate.setDate(startDate.getDate() - 1);
-            } else if (timePeriod === 'week') {
-                startDate.setDate(startDate.getDate() - 7);
-            } else if (timePeriod === 'month') {
-                startDate.setMonth(startDate.getMonth() - 1);
-            }
-
-            const endDate = new Date();
-
-            const sql = `
-                SELECT
-                    Counters.Name AS counterName,
-                    Services.Name AS serviceName,
-                    COUNT(Tickets.number) AS totalServed
-                FROM
-                    Tickets
-                INNER JOIN
-                    Counters ON Tickets.CounterId = Counters.Id
-                INNER JOIN
-                    Services ON Tickets.ServiceId = Services.Id
-                GROUP BY
-                    Counters.Name, Services.Name
-            `;
-
-           db.all(sql, [startDate, endDate], (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(rows);
-                }
-            });
-        });
-    }
-};
-
-
-
-
 
 

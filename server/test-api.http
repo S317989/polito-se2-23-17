@@ -1,2 +1,4 @@
-GET http://localhost:3001/api/stats/service-type/day HTTP/1.1
+GET http://localhost:3001/stats/service-type/day HTTP/1.1
+
 ###
+

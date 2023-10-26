@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StatsAPI from '../APIs/StatsAPI.jsx';
+import { Container, Row, Col, Table, Form } from 'react-bootstrap';
 
 function StatsPage() {
   const [timePeriod, setTimePeriod] = useState('day');
@@ -15,10 +16,10 @@ function StatsPage() {
     const fetchStats = async () => {
       try {
         const response1 = await StatsAPI.getServiceTypeStats(timePeriod);
-        setServiceTypeStats(response1.stats);
+        setServiceTypeStats(response1);
 
         const response2 = await StatsAPI.getCounterServiceStats(timePeriod);
-        setCounterServiceStats(response2.stats);
+        setCounterServiceStats(response2);
       } catch (error) {
         console.error('Error fetching statistics:', error);
       }
@@ -28,58 +29,64 @@ function StatsPage() {
   }, [timePeriod]);
 
   return (
-    <>
-      <h1>Stats Page</h1>
+    <Container>
+      <h1 className="mt-4">Stats Page</h1>
 
-      <div>
-        <label htmlFor="timePeriod">Select Time Period:</label>
-        <select id="timePeriod" value={timePeriod} onChange={handleTimePeriodChange}>
-          <option value="day">Day</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-        </select>
-      </div>
+      <Row className="mb-3">
+        <Form.Group as={Col} controlId="formTimePeriod">
+          <Form.Label>Select Time Period:</Form.Label>
+          <Form.Control as="select" value={timePeriod} onChange={handleTimePeriodChange}>
+            <option value="day">Day</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+          </Form.Control>
+        </Form.Group>
+      </Row>
 
-      <h1>Stats Page</h1>
+      <Row>
+        <Col>
+          <h2>Service Type Stats</h2>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Service Name</th>
+                <th>Total Served</th>
+              </tr>
+            </thead>
+            <tbody>
+            {Array.isArray(serviceTypeStats) && serviceTypeStats.map(stat => (
+            <tr key={stat.serviceName}>
+              <td>{stat.serviceName}</td>
+              <td>{stat.totalServed}</td>
+            </tr>
+  ))}
+            </tbody>
+          </Table>
+        </Col>
 
-<h2>Service Type Stats</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Service Name</th>
-      <th>Total Served</th>
+        <Col>
+          <h2>Counter Service Stats</h2>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Counter Name</th>
+                <th>Service Name</th>
+                <th>Total Served</th>
+              </tr>
+            </thead>
+            <tbody>
+            {Array.isArray(counterServiceStats) && counterServiceStats.map(stat => (
+    <tr key={`${stat.counterName}-${stat.serviceName}`}>
+      <td>{stat.counterName}</td>
+      <td>{stat.serviceName}</td>
+      <td>{stat.totalServed}</td>
     </tr>
-  </thead>
-  <tbody>
-    {serviceTypeStats.map(stat => (
-      <tr key={stat.serviceName}>
-        <td>{stat.serviceName}</td>
-        <td>{stat.totalServed}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
-<h2>Counter Service Stats</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Counter Name</th>
-      <th>Service Name</th>
-      <th>Total Served</th>
-    </tr>
-  </thead>
-  <tbody>
-    {counterServiceStats.map(stat => (
-      <tr key={`${stat.counterName}-${stat.serviceName}`}>
-        <td>{stat.counterName}</td>
-        <td>{stat.serviceName}</td>
-        <td>{stat.totalServed}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-    </>
+  ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

@@ -1,16 +1,6 @@
-// const express = require('express');
-// const ticketRouter = express.Router();
-
-// const ticketController = require('../Controllers/TicketController');
-
-// ticketRouter.post('/new-ticket', ticketController.newTicketRequest);
-
-// module.exports = ticketRouter;
-
-
-
 const express = require('express');
 const statsRouter = express.Router();
+
 const statsController = require('../Controllers/StatsController');
 
 // Get service type stats for a specific time period
