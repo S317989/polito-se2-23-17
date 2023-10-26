@@ -15,7 +15,7 @@ apiRouter.use((req, res, next) => {
   checkAuthentication(req, res, next);
 });
 
-apiRouter.use('/ticket', require('./TicketRouter'));
+apiRouter.use('/stats', require('./StatsRouter'));
 
 apiRouter.use('/services/getslist', require('./CounterRouter'));
 apiRouter.use('/services/newservice', require('./CounterRouter'));

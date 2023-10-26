@@ -18,6 +18,7 @@ import Header from './Components/Header';
 import './App.css';
 >>>>>>> ConfigureCounters-backend
 
+import StatsPage from './Pages/StatsPage';
 
 function App() {
 <<<<<<< HEAD
@@ -59,7 +60,8 @@ function App() {
                 <Route path="/" element={<p>Home</p>} />
                 <Route path="/new-ticket" element={<GetTicketPage />} />
                 <Route path="Login" element={<Login />} />
-              </Routes>
+                <Route path="/stats" element={<StatsPage />} />
+        </Routes>
             </UserContext.Provider>
           </BrowserRouter>
         </div>
@@ -84,3 +86,5 @@ function App() {
 }
 
 export default App;
+
+
