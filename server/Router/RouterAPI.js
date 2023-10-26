@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 const apiRouter = express.Router();
 
@@ -15,11 +14,8 @@ const checkAuthentication = (req, res, next) => {
 apiRouter.use((req, res, next) => {
   checkAuthentication(req, res, next);
 });
-=======
-const express = require('express');
-const apiRouter = express.Router();
 
-apiRouter.use('/ticket', require('./TicketRouter'));
+apiRouter.use('/stats', require('./StatsRouter'));
 
 apiRouter.use('/services/getslist', require('./CounterRouter'));
 apiRouter.use('/services/newservice', require('./CounterRouter'));
@@ -28,6 +24,5 @@ apiRouter.use('/services/deleteservice', require('./CounterRouter'));
 
 apiRouter.use('/services/:counterId', require('./CounterRouter'));
 apiRouter.use('/services/:counterId/:serviceId', require('./CounterRouter'));
->>>>>>> ConfigureCounters-backend
 
 module.exports = apiRouter;
