@@ -7,7 +7,6 @@ module.exports = {
 
         const { timePeriod } = req.params; // 'day', 'week', 'month'
         statsDAO.getServiceTypeStats(timePeriod).then((stats) =>  {
-
             return res.status(200).json(stats);
         }).catch((err) => {
             return res.status(err.status).json({message: err.message}).end()
