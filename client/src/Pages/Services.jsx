@@ -6,8 +6,10 @@ import { useState } from 'react';
 
 function Services() {
 
-   const [counter, setCounter]=useState(1);
-   const [conterslist, setCounterslist]=useState();
+   const counter=[1,2,3,4]; //counter is a fixed number
+   const [active, setActive]=useState(1);
+   
+   const [slist, setSlist]=useState();
 
   
   
@@ -17,7 +19,7 @@ function Services() {
   
         if (response.status === 200) {
           const sList=data.map((i)=>{id: i.Id, name: i.Name, ast: i.ast});
-          setCounterslist(sList);
+          setSlist(sList);
         } else {
           console.log("Error");
         }
@@ -42,9 +44,11 @@ function Services() {
 
             </Col>
             <Col>
-                    <Pagination.Item key={number} active={number === active}>
-                    {number}
-                    </Pagination.Item>,
+            {
+                counter.map((e)=><Pagination.Item key={e} active={e === active} onClick={()=>setActive(e)} >
+                Counter {e}
+                </Pagination.Item>)
+            }
         
             </Col>
                 
