@@ -28,15 +28,14 @@ function App() {
         });
     });
 
-    _user
-      .then((response) => {
-        setUser(response);
+    Promise.all([_user])
+      .then(async (responses) => {
+        if (responses[0].status === 200)
+            setUser(await responses[0].json());
+        else setUser(null);
+
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
   }, []);
 
   return (
