@@ -13,9 +13,6 @@ function Services() {
    const [slist, setSlist]=useState();
 
 
-
-    
-
     const handlelistService = () => {
       ServiceAPI.getServiceList().then(async (response) => {
         const data = await response.json();
