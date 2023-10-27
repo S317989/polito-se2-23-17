@@ -16,21 +16,21 @@ const ServiceAPI = {
 
   addNewService: function (name, ast) {
     const url = new URL(parentURL + "/services/newservice");
-
-    console.log("Request received")
+  
+    console.log("Request received");
     return fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: {
+      body: JSON.stringify({ // Convert the object to a JSON string
         name: name,
         ast: ast,
-
-      },
+      }),
     });
   },
+  
 
   updateService: function (ast) {
     const url = new URL(parentURL + "/services/updateservice");
