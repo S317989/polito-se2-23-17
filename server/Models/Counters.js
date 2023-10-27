@@ -12,6 +12,7 @@ const db = new sqlite.Database('QueueManagement.sqlite', (err) => { //file .sqli
 
 // get all services
 exports.getListServices = () => {
+  console.log("prova")
     return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM Services';
       db.all(sql, [], (err, rows) => {
@@ -20,6 +21,7 @@ exports.getListServices = () => {
           return;
         }
         const services = rows.map((e) => ({ id: e.Id, name: e.Name, ast: e.AverageServiceTime }));
+        console.log(services)
         resolve(services);
       });
     });
