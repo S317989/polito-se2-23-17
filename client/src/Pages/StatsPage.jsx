@@ -15,11 +15,12 @@ function StatsPage() {
     // Fetch statistics based on the selected time period
     const fetchStats = async () => {
       try {
-        const response1 = await StatsAPI.getServiceTypeStats(timePeriod);
-        setServiceTypeStats(response1);
-
-        const response2 = await StatsAPI.getCounterServiceStats(timePeriod);
-        setCounterServiceStats(response2);
+        StatsAPI.getServiceTypeStats(timePeriod).then(async (response) => {
+          setServiceTypeStats(await response.json());
+        });
+        StatsAPI.getCounterServiceStats(timePeriod).then(async (response) => {
+          setCounterServiceStats(await response.json());
+        });
       } catch (error) {
         console.error('Error fetching statistics:', error);
       }
@@ -76,11 +77,11 @@ function StatsPage() {
             </thead>
             <tbody>
             {Array.isArray(counterServiceStats) && counterServiceStats.map(stat => (
-    <tr key={`${stat.counterName}-${stat.serviceName}`}>
-      <td>{stat.counterName}</td>
-      <td>{stat.serviceName}</td>
-      <td>{stat.totalServed}</td>
-    </tr>
+            <tr key={`${stat.counterName}-${stat.serviceName}`}>
+              <td>{stat.counterName}</td>
+              <td>{stat.serviceName}</td>
+              <td>{stat.totalServed}</td>
+            </tr>
   ))}
             </tbody>
           </Table>
