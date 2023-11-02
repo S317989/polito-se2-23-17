@@ -75,7 +75,7 @@ sections:
   - Coverage (if available) --> 0
 - E2E testing:
   - Total hours estimated --> 10h
-  - Total hours spent --> 0h
+  - Total hours spent --> 4h
 - Code review 
   - Total hours estimated --> 6h
   - Total hours spent --> 3h
