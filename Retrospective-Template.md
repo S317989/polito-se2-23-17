@@ -63,7 +63,7 @@ sections:
 
     - Standard Deviation = √0.0284 ≈ 0.169 hours
   
-- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 --> 21/(19-1) = 1.16
+- Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 --> 25/28 = -0.89
 
   
 ## QUALITY MEASURES 
