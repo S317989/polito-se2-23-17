@@ -14,7 +14,7 @@ sections:
 
 - 6 stories committed | 3 stories done
 - 29 points committed | 16 points done
-- 48 h | 25h hours spent by team
+- 48 h | 28h hours spent by team
 
 **Remember** a story is done ONLY if it fits the Definition of Done:
  
@@ -37,6 +37,7 @@ sections:
 | n 4     | See stats (frontend)         |  3      | 2h           |      3h        |
 | n 4     | See stats (backend)         |  3      | 2h           |        4h      |
 | n 5     | Call the next client (Backend)         |  3      | 4h           |        3h      |
+| n 5     | Call the next client (Frontend)         |  3      | 3h           |        3h      |
 
    
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
