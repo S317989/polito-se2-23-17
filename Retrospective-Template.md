@@ -41,7 +41,27 @@ sections:
    
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
-- Hours per task average, standard deviation (estimate and actual)
+- Hours per task average, standard deviation (estimate and actual) --> 
+  - **Calculate the average hours per task** for each group (Story):
+     - Story #0: (4 + 3 + 3) / 3 = 3.33 hours per task
+     - Story n1: (2 + 2 + 3) / 3 = 2.33 hours per task
+     - Story n4: (2 + 2 + 3) / 3 = 2.33 hours per task
+     - Story n5: (4 + 4 + 3) / 3 = 3.67 hours per task
+
+  - **Calculate the squared differences** from the overall average:
+     - (3.33 - 2.83)^2 = 0.0556 for Story #0
+     - (2.33 - 2.83)^2 = 0.0256 for Story n1
+     - (2.33 - 2.83)^2 = 0.0256 for Story n4
+     - (3.67 - 2.83)^2 = 0.0069 for Story n5
+
+  - **Calculate the variance** by averaging the squared differences:
+
+    - Variance = (0.0556 + 0.0256 + 0.0256 + 0.0069) / 4 = 0.0284 hours²
+
+  - **Calculate the standard deviation** as the square root of the variance:
+
+    - Standard Deviation = √0.0284 ≈ 0.169 hours
+  
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1 --> 21/(19-1) = 1.16
 
   
