@@ -106,4 +106,4 @@ sections:
   - We can meet often in order to improve the connections and help each other
 
 - One thing you are proud of as a Team!!
-  - All of the members
+  - We created a good environment with our sense of humor
